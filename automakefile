@@ -43,9 +43,9 @@ make_file()
 	echo -e "\narchive:" >> $project_directory/Makefile
 	echo -e "\n\t$zip_arg $zipflags_arg $bck_directory" >> $project_directory/Makefile
 	echo -e "\nrevert:" >> $project_directory/Makefile
-	echo -e "\n\t$unzip_arg $unzip_arg" >> $project_directory/Makefile
+	echo -e "\n\t$unzip_arg $unzipflags_arg" >> $project_directory/Makefile
 	echo -e "\nnum:" >> $project_directory/Makefile
-	echo -e "\n\ta faire" >> $project_directory/Makefile
+	echo -e "\n\t1_0" >> $project_directory/Makefile
 	echo -e "\ndelete:" >> $project_directory/Makefile
 	echo -e "\n\t\$(RM) $bck_directory" >> $project_directory/Makefile
 	echo -e "\n.PHONY: all clean fclean re archive revert num delete" >> $project_directory/Makefile
