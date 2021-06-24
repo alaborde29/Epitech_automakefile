@@ -9,15 +9,13 @@
 
 make_file()
 {
-	i=0
 	if [ -z $project_directory ]
 	then
 		exit 84
 	fi
 	echo -e "NAME\t=\t$exec_arg" >> $project_directory/Makefile
 	echo -e "\nCC\t=\t$cc_arg" >> $project_directory/Makefile
-	echo $n_src
-	for ((j = 0; $i != n_src; i++))
+	for ((i = 0; $i != n_src; i++))
 	do
 		if [ $i == 0 ]
 		then
@@ -47,7 +45,7 @@ make_file()
 	echo -e "\nrevert:" >> $project_directory/Makefile
 	echo -e "\n\t$unzip_arg $unzip_arg" >> $project_directory/Makefile
 	echo -e "\nnum:" >> $project_directory/Makefile
-	echo -e "\n@echo "1_0"" >> $project_directory/Makefile
+	echo -e "\n\ta faire" >> $project_directory/Makefile
 	echo -e "\ndelete:" >> $project_directory/Makefile
 	echo -e "\n\t\$(RM) $bck_directory" >> $project_directory/Makefile
 	echo -e "\n.PHONY: all clean fclean re archive revert num delete" >> $project_directory/Makefile
@@ -117,6 +115,7 @@ error_check()
 		exit 84
 	elif [ ! -f $1 ]
 	then
+		echo "not a file"
 		exit 84
 	fi
 }
