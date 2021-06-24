@@ -1,0 +1,91 @@
+##
+## EPITECH PROJECT, 2020
+## undefined
+## File description:
+## automakefile
+##
+
+#!/bin/bash
+
+make_file()
+{
+	if [ -z $project_directory ]
+	then
+		exit 84
+	fi
+	echo " "
+}
+
+parsing_args()
+{
+	IFS=";"
+	i=0;
+	while read line
+		do
+			tab=($line)
+		if [[ ${tab} == *.c ]]
+		then
+			src[i]=${array[0]}
+			i++
+		elif [[ ${tab[0]} == "PROJECT_DIR" ]]
+		then
+			project_directory=${tab[1]}
+		elif [[ ${tab[0]} == "SOURCES_DIR" ]]
+		then
+			sources_directory=${tab[1]}
+		elif [[ ${tab[0]} == "HEADERS_DIR" ]]
+		then
+			headers_directory=${tab[1]}
+		elif [[ ${tab[0]} == "LIBS_DIR" ]]
+		then
+			libs_directory=${tab[1]}
+		elif [[ ${tab[0]} == "EXEC" ]]
+		then
+			execute=${tab[1]}
+		elif [[ ${tab[0]} == "CC" ]]
+		then
+			cc=${tab[1]}
+		elif [[ ${tab[0]} == "CFLAGS" ]]
+		then
+			cflags=${tab[1]}
+		elif [[ ${tab[0]} == "LDFLAGS" ]]
+		then
+			ldflags=${tab[1]}
+		elif [[ ${tab[0]} == "BCK_DIR" ]]
+		then
+			bck_directory=${tab[1]}
+		elif [[ ${tab[0]} == "ZIP" ]]
+		then
+			zip=${tab[1]}
+		elif [[ ${tab[0]} == "ZIPFLAGS" ]]
+		then
+			zipflags=${tab[1]}
+		elif [[ ${tab[0]} == "UNZIP" ]]
+		then
+			unzip=${tab[1]}
+		elif [[ ${tab[0]} == "UNZIPFLAGS" ]]
+		then
+			unzipflags=${tab[1]}
+		fi
+	done < $1
+
+	make_file $1 $src $project_directory $sources_directory $headers_directory $libs_directory $execute $cc $cflags $ldflags $bck_directory $zip $zipflags $unzip $unzipflags
+}
+
+error_check()
+{
+	if [ -z $1 ]
+	then
+		echo "empty str"
+		exit 84
+	fi
+}
+
+automakefile()
+{
+	error_check $1
+	parsing_args $1
+}
+
+automakefile $1
+exit 0
