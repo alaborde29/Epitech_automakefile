@@ -9,24 +9,61 @@
 
 make_file()
 {
+	i=0
 	if [ -z $project_directory ]
 	then
 		exit 84
 	fi
-	echo " "
+	echo -e "NAME\t=\t$exec_arg" >> $project_directory/Makefile
+	echo -e "\nCC\t=\t$cc_arg" >> $project_directory/Makefile
+	echo $n_src
+	for ((j = 0; $i != n_src; i++))
+	do
+		if [ $i == 0 ]
+		then
+			echo -e "\nSRC\t=\t$sources_directory/${src_arg[$i]} \\" >> $project_directory/Makefile #SRC A FAIRE
+		else
+			echo -e "\t\t$sources_directory/${src_arg[$i]} \\" >> $project_directory/Makefile
+		fi
+	done
+	echo -e "\nOBJ\t=\t\$(SRC:.c=.o)" >> $project_directory/Makefile
+	echo -e "\nCFLAGS\t=\t$cflags_arg" >> $project_directory/Makefile
+	echo -e "\nLDFLAGS\t=\t$ldflags_arg" >> $project_directory/Makefile
+	echo -e "\nRM\t=\trm -f" >> $project_directory/Makefile
+	echo -e "\nall:\t\$(NAME)" >> $project_directory/Makefile
+	echo -e "\$(NAME): \$(OBJ)" >> $project_directory/Makefile
+	echo -e "\n\t\$(MAKE) -C $libs_directory" >> $project_directory/Makefile
+	echo -e "\n\t\$(CC) -o \$(NAME) \$(OBJ) \$(CFLAGS) \$(LDFLAGS)" >> $project_directory/Makefile
+	echo -e "\nclean:" >> $project_directory/Makefile
+	echo -e "\n\t\$(RM) \$(OBJ)" >> $project_directory/Makefile
+	echo -e "\n\t\$(MAKE) -C $libs_directory clean" >> $project_directory/Makefile
+	echo -e "\nfclean:" >> $project_directory/Makefile
+	echo -e "\n\t\$(RM) \$(NAME)" >> $project_directory/Makefile
+	echo -e "\n\t\$(MAKE) -C $libs_directory fclean" >> $project_directory/Makefile
+	echo -e "\n\t\$(RM) vgcore.*" >> $project_directory/Makefile
+	echo -e "\nre: fclean all" >> $project_directory/Makefile
+	echo -e "\narchive:" >> $project_directory/Makefile
+	echo -e "\n\t$zip_arg $zipflags_arg $bck_directory" >> $project_directory/Makefile
+	echo -e "\nrevert:" >> $project_directory/Makefile
+	echo -e "\n\t$unzip_arg $unzip_arg" >> $project_directory/Makefile
+	echo -e "\nnum:" >> $project_directory/Makefile
+	echo -e "\n@echo "1_0"" >> $project_directory/Makefile
+	echo -e "\ndelete:" >> $project_directory/Makefile
+	echo -e "\n\t\$(RM) $bck_directory" >> $project_directory/Makefile
+	echo -e "\n.PHONY: all clean fclean re archive revert num delete" >> $project_directory/Makefile
 }
 
 parsing_args()
 {
+	n_src=0;
 	IFS=";"
-	i=0;
 	while read line
 		do
 			tab=($line)
-		if [[ ${tab} == *.c ]]
+		if [[ ${tab[0]} == *.c ]]
 		then
-			src[i]=${array[0]}
-			i++
+			src_arg[n_src]=${tab[0]}
+			((n_src++))
 		elif [[ ${tab[0]} == "PROJECT_DIR" ]]
 		then
 			project_directory=${tab[1]}
@@ -41,35 +78,35 @@ parsing_args()
 			libs_directory=${tab[1]}
 		elif [[ ${tab[0]} == "EXEC" ]]
 		then
-			execute=${tab[1]}
+			exec_arg=${tab[1]}
 		elif [[ ${tab[0]} == "CC" ]]
 		then
-			cc=${tab[1]}
+			cc_arg=${tab[1]}
 		elif [[ ${tab[0]} == "CFLAGS" ]]
 		then
-			cflags=${tab[1]}
+			cflags_arg=${tab[1]}
 		elif [[ ${tab[0]} == "LDFLAGS" ]]
 		then
-			ldflags=${tab[1]}
+			ldflags_arg=${tab[1]}
 		elif [[ ${tab[0]} == "BCK_DIR" ]]
 		then
 			bck_directory=${tab[1]}
 		elif [[ ${tab[0]} == "ZIP" ]]
 		then
-			zip=${tab[1]}
+			zip_arg=${tab[1]}
 		elif [[ ${tab[0]} == "ZIPFLAGS" ]]
 		then
-			zipflags=${tab[1]}
+			zipflags_arg=${tab[1]}
 		elif [[ ${tab[0]} == "UNZIP" ]]
 		then
-			unzip=${tab[1]}
+			unzip_arg=${tab[1]}
 		elif [[ ${tab[0]} == "UNZIPFLAGS" ]]
 		then
-			unzipflags=${tab[1]}
+			unzipflags_arg=${tab[1]}
 		fi
 	done < $1
 
-	make_file $1 $src $project_directory $sources_directory $headers_directory $libs_directory $execute $cc $cflags $ldflags $bck_directory $zip $zipflags $unzip $unzipflags
+	make_file $n_src $1 $src_arg $project_directory $sources_directory $headers_directory $libs_directory $exec_arg $cc_arg $cflags_arg $ldflags_arg $bck_directory $zip_arg $zipflags_arg $unzip_arg $unzipflags_arg
 }
 
 error_check()
@@ -77,6 +114,9 @@ error_check()
 	if [ -z $1 ]
 	then
 		echo "empty str"
+		exit 84
+	elif [ ! -f $1 ]
+	then
 		exit 84
 	fi
 }
