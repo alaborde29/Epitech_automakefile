@@ -13,6 +13,10 @@ make_file()
 	then
 		exit 84
 	fi
+	if [ $n_src == 0 ]
+	then
+		exit 84
+	fi
 	echo -e "NAME\t=\t$exec_arg" >> $project_directory/Makefile
 	echo -e "\nCC\t=\t$cc_arg" >> $project_directory/Makefile
 	for ((i = 0; $i != n_src; i++))
