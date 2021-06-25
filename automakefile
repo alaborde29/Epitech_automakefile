@@ -34,11 +34,8 @@ make_file()
 	echo -e "\n\t\$(CC) -o \$(NAME) \$(OBJ) \$(CFLAGS) \$(LDFLAGS)" >> $project_directory/Makefile
 	echo -e "\nclean:" >> $project_directory/Makefile
 	echo -e "\n\t\$(RM) \$(OBJ)" >> $project_directory/Makefile
-	echo -e "\n\t\$(MAKE) -C $libs_directory clean" >> $project_directory/Makefile
-	echo -e "\nfclean:" >> $project_directory/Makefile
+	echo -e "\nfclean: clean" >> $project_directory/Makefile
 	echo -e "\n\t\$(RM) \$(NAME)" >> $project_directory/Makefile
-	echo -e "\n\t\$(MAKE) -C $libs_directory fclean" >> $project_directory/Makefile
-	echo -e "\n\t\$(RM) vgcore.*" >> $project_directory/Makefile
 	echo -e "\nre: fclean all" >> $project_directory/Makefile
 	echo -e "\narchive:" >> $project_directory/Makefile
 	echo -e "\n\t$zip_arg $zipflags_arg $bck_directory" >> $project_directory/Makefile
