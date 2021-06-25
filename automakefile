@@ -53,7 +53,7 @@ parsing_args()
 {
 	n_src=0;
 	IFS=";"
-	while read line
+	while read line || [ -n "$line" ]
 		do
 			tab=($line)
 		if [[ ${tab[0]} == *.c ]]
@@ -98,6 +98,7 @@ parsing_args()
 			unzip_arg=${tab[1]}
 		elif [[ ${tab[0]} == "UNZIPFLAGS" ]]
 		then
+			echo agga
 			unzipflags_arg=${tab[1]}
 		fi
 	done < $1
