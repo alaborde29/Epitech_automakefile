@@ -30,7 +30,6 @@ make_file()
 	echo -e "\nRM\t=\trm -f" >> $project_directory/Makefile
 	echo -e "\nall:\t\$(NAME)" >> $project_directory/Makefile
 	echo -e "\$(NAME): \$(OBJ)" >> $project_directory/Makefile
-	echo -e "\n\t\$(MAKE) -C $libs_directory" >> $project_directory/Makefile
 	echo -e "\n\t\$(CC) -o \$(NAME) \$(OBJ) \$(CFLAGS) \$(LDFLAGS)" >> $project_directory/Makefile
 	echo -e "\nclean:" >> $project_directory/Makefile
 	echo -e "\n\t\$(RM) \$(OBJ)" >> $project_directory/Makefile
@@ -38,11 +37,13 @@ make_file()
 	echo -e "\n\t\$(RM) \$(NAME)" >> $project_directory/Makefile
 	echo -e "\nre: fclean all" >> $project_directory/Makefile
 	echo -e "\narchive:" >> $project_directory/Makefile
-	echo -e "\n\t$zip_arg $zipflags_arg $bck_directory" >> $project_directory/Makefile
+	echo -e "\n\tmkdir -p $bck_directory" >> $project_directory/Makefile
+	echo -e "\n\t$zip_arg $zipflags_arg $bck_directory_001 \$(SRC)" >> $project_directory/Makefile
+	echo -e "\n\t@echo \"backup file generated.\"" >> $project_directory/Makefile
 	echo -e "\nrevert:" >> $project_directory/Makefile
 	echo -e "\n\t$unzip_arg $unzipflags_arg" >> $project_directory/Makefile
 	echo -e "\nnum:" >> $project_directory/Makefile
-	echo -e "\n\t1_0" >> $project_directory/Makefile
+	echo -e "\n\t_001" >> $project_directory/Makefile
 	echo -e "\ndelete:" >> $project_directory/Makefile
 	echo -e "\n\t\$(RM) $bck_directory" >> $project_directory/Makefile
 	echo -e "\n.PHONY: all clean fclean re archive revert num delete" >> $project_directory/Makefile
