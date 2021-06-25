@@ -38,7 +38,7 @@ make_file()
 	echo -e "\nre: fclean all" >> $project_directory/Makefile
 	echo -e "\narchive:" >> $project_directory/Makefile
 	echo -e "\n\tmkdir -p $bck_directory" >> $project_directory/Makefile
-	echo -e "\n\t$zip_arg $zipflags_arg $bck_directory_001 \$(SRC)" >> $project_directory/Makefile
+	echo -e "\n\t$zip_arg $zipflags_arg $bck_directory/backup_001.tar \$(SRC)" >> $project_directory/Makefile
 	echo -e "\n\t@echo \"backup file generated.\"" >> $project_directory/Makefile
 	echo -e "\nrevert:" >> $project_directory/Makefile
 	echo -e "\n\t$unzip_arg $unzipflags_arg" >> $project_directory/Makefile
