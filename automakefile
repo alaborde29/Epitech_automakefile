@@ -41,7 +41,7 @@ make_file()
 	echo -e "\n\t$zip_arg $zipflags_arg $bck_directory/backup_001.tar \$(SRC)" >> $project_directory/Makefile
 	echo -e "\n\t@echo \"backup file generated.\"" >> $project_directory/Makefile
 	echo -e "\nrevert:" >> $project_directory/Makefile
-	echo -e "\n\t$unzip_arg $unzipflags_arg" >> $project_directory/Makefile
+	echo -e "\n\t$unzip_arg $unzipflags_arg $bck_directory/backup_001.tar" >> $project_directory/Makefile
 	echo -e "\nnum:" >> $project_directory/Makefile
 	echo -e "\n\t_001" >> $project_directory/Makefile
 	echo -e "\ndelete:" >> $project_directory/Makefile
@@ -98,7 +98,6 @@ parsing_args()
 			unzip_arg=${tab[1]}
 		elif [[ ${tab[0]} == "UNZIPFLAGS" ]]
 		then
-			echo agga
 			unzipflags_arg=${tab[1]}
 		fi
 	done < $1
