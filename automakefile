@@ -10,19 +10,18 @@
 verify_sources()
 {
 	i=0;
-	echo $n_src
 	for ((i=0; i != n_src; i++))
 	do
-		echo ./$project_directory/${src_arg[$i]}
-		if [ ! -e "./$project_directory/${src_arg[$i]}" ]
+		if [ ! -e $project_directory/$sources_directory/${src_arg[$i]} ]
 		then
-			echo "does not exist"
+			exit 84
 		fi
 	done
 }
 
 make_file()
 {
+	verify_sources $n_src $project_directory $sources_directory $src_arg
 	if [ -z $project_directory ]
 	then
 		exit 84
