@@ -75,7 +75,7 @@ make_file()
 	echo -e "\nnum:" >> $project_directory/Makefile
 	echo -e "\n\t_001" >> $project_directory/Makefile
 	echo -e "\ndelete:" >> $project_directory/Makefile
-	echo -e "\n\t\$(RM) $bck_directory" >> $project_directory/Makefile
+	echo -e "\n\t\$(RM) $bck_directory/backup_001.tar" >> $project_directory/Makefile
 	echo -e "\n.PHONY: all clean fclean re archive revert num delete" >> $project_directory/Makefile
 }
 
