@@ -19,13 +19,26 @@ verify_sources()
 	done
 }
 
+verify_header()
+{
+	i=0;
+	for ((i=0; i != n_src; i++))
+	do
+		if [ ! -e $project_directory/$headers_directory/${header_tab[$i]} ]
+		then
+			exit 84
+		fi
+	done
+}
+
 make_file()
 {
-	verify_sources $n_src $project_directory $sources_directory $src_arg
+	verify_sources $header_tab $project_directory $headers_directory
 	if [ -z $project_directory ]
 	then
 		exit 84
 	fi
+	verify_header ${tab[1]} $project_directory $headers_directory
 	if [ $n_src == 0 ]
 	then
 		exit 84
@@ -76,6 +89,9 @@ parsing_args()
 		if [[ ${tab[0]} == *.c ]]
 		then
 			src_arg[n_src]=${tab[0]}
+			IFS=' '
+			read -ra header_tab <<< ${tab[1]}
+			IFS=";"
 			((n_src++))
 		elif [[ ${tab[0]} == "PROJECT_DIR" ]]
 		then
@@ -126,7 +142,7 @@ parsing_args()
 		fi
 	done < $1
 
-	make_file $n_src $1 $src_arg $project_directory $sources_directory $headers_directory $libs_directory $exec_arg $cc_arg $cflags_arg $ldflags_arg $bck_directory $zip_arg $zipflags_arg $unzip_arg $unzipflags_arg
+	make_file $n_src $1 $src_arg $header_tab $project_directory $sources_directory $headers_directory $libs_directory $exec_arg $cc_arg $cflags_arg $ldflags_arg $bck_directory $zip_arg $zipflags_arg $unzip_arg $unzipflags_arg
 }
 
 error_check()
