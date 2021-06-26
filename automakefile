@@ -7,6 +7,20 @@
 
 #!/bin/bash
 
+verify_sources()
+{
+	i=0;
+	echo $n_src
+	for ((i=0; i != n_src; i++))
+	do
+		echo ./$project_directory/${src_arg[$i]}
+		if [ ! -e "./$project_directory/${src_arg[$i]}" ]
+		then
+			echo "does not exist"
+		fi
+	done
+}
+
 make_file()
 {
 	if [ -z $project_directory ]
@@ -23,7 +37,7 @@ make_file()
 	do
 		if [ $i == 0 ]
 		then
-			echo -e "\nSRC\t=\t$sources_directory/${src_arg[$i]} \\" >> $project_directory/Makefile #SRC A FAIRE
+			echo -e "\nSRC\t=\t$sources_directory/${src_arg[$i]} \\" >> $project_directory/Makefile
 		else
 			echo -e "\t\t$sources_directory/${src_arg[$i]} \\" >> $project_directory/Makefile
 		fi
@@ -69,7 +83,14 @@ parsing_args()
 			project_directory=${tab[1]}
 		elif [[ ${tab[0]} == "SOURCES_DIR" ]]
 		then
+			if [[ ! -n ${tab[1]} ]]
+			then
+				sources_directory="."
+			fi
+			if [[ -n ${tab[1]} ]]
+			then
 			sources_directory=${tab[1]}
+			fi
 		elif [[ ${tab[0]} == "HEADERS_DIR" ]]
 		then
 			headers_directory=${tab[1]}
